@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Донат — Айназ</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .donate-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      overflow: hidden;
+      transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .donate-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+      transition: left 0.5s ease;
+      pointer-events: none;
+    }
+    .donate-card:hover::after { left: 140%; }
+
+    .donate-card.neon-pink:hover  { transform: translateY(4px); border-color: rgba(255,45,107,0.7);  box-shadow: 0 0 20px rgba(255,45,107,0.3),  inset 0 0 20px rgba(255,45,107,0.04); background: var(--bg-card-hover); }
+    .donate-card.neon-cyan:hover  { transform: translateY(4px); border-color: rgba(0,212,255,0.7);   box-shadow: 0 0 20px rgba(0,212,255,0.3),   inset 0 0 20px rgba(0,212,255,0.04);  background: var(--bg-card-hover); }
+    .donate-card.neon-purple:hover{ transform: translateY(4px); border-color: rgba(168,85,247,0.7);  box-shadow: 0 0 20px rgba(168,85,247,0.3),  inset 0 0 20px rgba(168,85,247,0.04); background: var(--bg-card-hover); }
+    .donate-card.neon-green:hover { transform: translateY(4px); border-color: rgba(0,255,136,0.7);   box-shadow: 0 0 20px rgba(0,255,136,0.3),   inset 0 0 20px rgba(0,255,136,0.04);  background: var(--bg-card-hover); }
+
+    .donate-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .donate-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .donate-card:hover .donate-icon {
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    .donate-method {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .donate-note {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .donate-requisite {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 13px;
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: color 0.2s ease, background 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .donate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-card);
+      border: 1px solid rgba(0,255,136,0.4);
+      color: var(--accent-green);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 0 16px rgba(0,255,136,0.2);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-noise"></div>
+  <div class="bg-grid"></div>
+  <canvas id="particles"></canvas>
+  <div class="toast" id="toast">✓ Скопировано!</div>
+
+  <div class="wrapper" style="justify-content: flex-start; padding-top: 48px;">
+
+    <!-- Page header -->
+    <div class="page-header anim-slideright">
+      <a href="index.html" class="back-link">← Вернуться назад</a>
+      <h1 class="page-title">
+        <span class="page-title-icon">💸</span>
+        Задонатить
+      </h1>
+    </div>
+
+    <!-- Description -->
+    <div class="anim-fadeup delay-1" style="
+      width: 100%;
+      max-width: 640px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    ">
+      <span style="font-size:22px; flex-shrink:0;">🙏</span>
+      <div>
+        <p style="font-size:13px; font-weight:600; margin-bottom:6px; color: var(--text-primary);">Поддержи разработчика</p>
+        <p style="font-size:12.5px; line-height:1.7; color: var(--text-secondary);">
+          Если мои проекты были тебе полезны — можешь поддержать рублём.
+          Каждый донат мотивирует делать больше крутых штук и попасть в топ 😄
+        </p>
+      </div>
+    </div>
+
+    <!-- Donation methods -->
+    <div style="width:100%; max-width:640px; margin-bottom: 8px;" class="anim-fadeup delay-2">
+      <div class="section-label">
+        <span class="section-label-icon">💳</span>
+        Способы перевода
+      </div>
+    </div>
+
+    <div class="donate-grid">
+
+      <div class="donate-card neon-green anim-fadeup delay-3">
+        <div class="donate-header">
+          <div class="donate-icon">🏦</div>
+          <div>
+            <div class="donate-method">Тинькофф / Т-Банк</div>
+            <div class="donate-note">Перевод по номеру телефона</div>
+          </div>
+        </div>
+        <div class="donate-requisite">
+          <span id="tinkoff-num">+7 (900) 000-00-00</span>
+          <button class="copy-btn" onclick="copyTo('tinkoff-num')">📋</button>
+        </div>
+      </div>
+
+      <div class="donate-card neon-cyan anim-fadeup delay-4">
+        <div class="donate-header">
+          <div class="donate-icon">💳</div>
+          <div>
+            <div class="donate-method">Номер карты</div>
+            <div class="donate-note">Любой банк</div>
+          </div>
+        </div>
+        <div class="donate-requisite">
+          <span id="card-num">0000 0000 0000 0000</span>
+          <button class="copy-btn" onclick="copyTo('card-num')">📋</button>
+        </div>
+      </div>
+
+      <div class="donate-card neon-purple anim-fadeup delay-5">
+        <div class="donate-header">
+          <div class="donate-icon">⚡</div>
+          <div>
+            <div class="donate-method">USDT TRC-20</div>
+            <div class="donate-note">Крипто — быстро и анонимно</div>
+          </div>
+        </div>
+        <div class="donate-requisite" style="font-size:11px; word-break:break-all;">
+          <span id="usdt-addr">T...xxxxxxxxxxxxxxxx</span>
+          <button class="copy-btn" onclick="copyTo('usdt-addr')">📋</button>
+        </div>
+      </div>
+
+      <div class="donate-card neon-pink anim-fadeup delay-6">
+        <div class="donate-header">
+          <div class="donate-icon">🤖</div>
+          <div>
+            <div class="donate-method">DonationAlerts</div>
+            <div class="donate-note">Через стриминговую платформу</div>
+          </div>
+        </div>
+        <div class="donate-requisite">
+          <span id="da-link">donationalerts.com/r/aynaz</span>
+          <button class="copy-btn" onclick="copyTo('da-link')">📋</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function copyTo(id) {
+      const text = document.getElementById(id).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контакты — Айназ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-noise"></div>
+  <div class="bg-grid"></div>
+  <canvas id="particles"></canvas>
+
+  <div class="wrapper" style="justify-content: flex-start; padding-top: 48px;">
+
+    <!-- Page header -->
+    <div class="page-header anim-slideright">
+      <a href="index.html" class="back-link">← Вернуться назад</a>
+      <h1 class="page-title">
+        <span class="page-title-icon">📡</span>
+        Контакты
+      </h1>
+    </div>
+
+    <!-- Preferred -->
+    <div style="width:100%; max-width:600px; margin-bottom: 8px;" class="anim-fadeup delay-1">
+      <div class="section-label">
+        <span class="section-label-icon">⭐</span>
+        Предпочтительные способы связи
+      </div>
+    </div>
+
+    <div class="contacts-grid" style="margin-bottom: 28px;">
+
+      <a href="https://t.me/aynazdev" target="_blank" class="contact-card neon-cyan anim-fadeup delay-2">
+        <div class="contact-icon">✈️</div>
+        <div class="contact-info">
+          <div class="contact-handle">@aynazdev</div>
+          <div class="contact-label">Telegram — предпочтительный</div>
+        </div>
+        <span class="contact-priority badge-cyan" style="border:1px solid rgba(0,212,255,0.3);">№1</span>
+      </a>
+
+      <a href="https://discord.com/users/aynaz" target="_blank" class="contact-card neon-purple anim-fadeup delay-3">
+        <div class="contact-icon">🎮</div>
+        <div class="contact-info">
+          <div class="contact-handle">@aynaz</div>
+          <div class="contact-label">Discord — быстрый ответ</div>
+        </div>
+        <span class="contact-priority badge-purple" style="border:1px solid rgba(168,85,247,0.3);">№2</span>
+      </a>
+
+    </div>
+
+    <!-- Other -->
+    <div style="width:100%; max-width:600px; margin-bottom: 8px;" class="anim-fadeup delay-4">
+      <div class="section-label">
+        <span class="section-label-icon">📬</span>
+        Дополнительные контакты
+      </div>
+    </div>
+
+    <div class="contacts-grid" style="margin-bottom: 48px;">
+
+      <a href="https://vk.com/aynaz" target="_blank" class="contact-card neon-pink anim-fadeup delay-5">
+        <div class="contact-icon">📘</div>
+        <div class="contact-info">
+          <div class="contact-handle">@aynaz</div>
+          <div class="contact-label">ВКонтакте — проверяю редко</div>
+        </div>
+      </a>
+
+      <a href="mailto:boss@play2go.cloud" class="contact-card neon-green anim-fadeup delay-6">
+        <div class="contact-icon">📧</div>
+        <div class="contact-info">
+          <div class="contact-handle">boss@play2go.cloud</div>
+          <div class="contact-label">Email — деловые предложения</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/aynaz" target="_blank" class="contact-card neon-orange anim-fadeup delay-7">
+        <div class="contact-icon">💻</div>
+        <div class="contact-info">
+          <div class="contact-handle">github/aynaz</div>
+          <div class="contact-label">GitHub — мои репозитории</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Info block -->
+    <div class="anim-fadeup delay-8" style="
+      width: 100%;
+      max-width: 600px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 48px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    ">
+      <span style="font-size:22px; flex-shrink:0;">💡</span>
+      <div>
+        <p style="font-size:13px; font-weight:600; margin-bottom:6px; color: var(--text-primary);">Предпочитаю Telegram</p>
+        <p style="font-size:12.5px; line-height:1.7; color: var(--text-secondary);">
+          Для обсуждения проектов, вакансий и сотрудничества — пишите в Telegram.
+          Обычно отвечаю в течение нескольких часов. По деловым вопросам можно
+          написать на email.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

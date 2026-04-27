@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Айназ — Backend Developer</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Page-specific overrides ── */
+
+    body {
+      background: #0d0d0d;
+    }
+
+    .wrapper {
+      justify-content: center;
+      gap: 0;
+    }
+
+    /* Avatar glow behind */
+    .avatar-glow {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160, 60, 200, 0.38) 0%, rgba(200, 40, 100, 0.15) 45%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(12px);
+    }
+
+    .avatar-container {
+      padding: 14px;
+      z-index: 1;
+    }
+
+    /* Name with solid pink badge */
+    .name-badge {
+      display: inline-block;
+      background: #e0336e;
+      color: #fff;
+      font-weight: 700;
+      padding: 2px 10px 3px;
+      border-radius: 6px;
+      font-size: inherit;
+      line-height: inherit;
+      vertical-align: baseline;
+    }
+
+    .hero-name {
+      font-size: clamp(22px, 4vw, 28px);
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    /* Age decimal */
+    .hero-age {
+      font-size: 15px;
+      color: #aaaacc;
+      margin-bottom: 18px;
+    }
+
+    .hero-age #age-display {
+      color: #aaaacc;
+      font-weight: 400;
+    }
+
+    /* Bio */
+    .hero-bio {
+      font-size: 13px;
+      color: #666688;
+      line-height: 1.8;
+      max-width: 440px;
+      margin: 0 auto 40px;
+    }
+
+    /* ── Nav cards – reference style ── */
+    .nav-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 680px;
+      width: 100%;
+    }
+
+    @media (max-width: 560px) {
+      .nav-cards { grid-template-columns: 1fr; }
+    }
+
+    .nav-card {
+      padding: 20px 18px 22px;
+      border-radius: 12px;
+      background: #141418;
+      border: 1px solid #222230;
+      gap: 0;
+    }
+
+    .nav-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .nav-card-icon {
+      font-size: 18px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-card:hover .nav-card-icon {
+      transform: scale(1.2) rotate(-5deg);
+    }
+
+    .nav-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: #e0e0ee;
+    }
+
+    .nav-card-desc {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #555570;
+      margin: 0;
+    }
+
+    /* hide arrow on main page cards */
+    .nav-card-arrow { display: none; }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+
+  <div class="wrapper">
+
+    <!-- Glow behind avatar -->
+    <div style="position:relative;">
+      <div class="avatar-glow"></div>
+
+      <!-- Avatar -->
+      <div class="avatar-container anim-fadeup">
+        <div class="avatar-ring">
+          <img class="avatar-img" src="img/profile.jpg" alt="Айназ" />
+          <svg class="avatar-dashed-ring" viewBox="0 0 132 132" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="129" height="129" rx="28" ry="28"/>
+          </svg>
+          <div class="avatar-status"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero text -->
+    <div class="hero anim-fadeup delay-2" style="text-align:center;">
+
+      <h1 class="hero-name">
+        Привет! Меня зовут <span class="name-badge">Айназ</span>
+      </h1>
+
+      <p class="hero-age">
+        Мне <span id="age-display">загрузка...</span> года
+      </p>
+
+      <p class="hero-bio">
+        Я Full Stack разработчик из России, Казань. У меня есть несколько проектов,
+        которые предлагают отличное качество услуг по доступной цене. Стремлюсь к
+        совершенству во всём. Люблю, очень люблю деньги&nbsp;:)
+      </p>
+
+    </div>
+
+    <!-- Navigation cards -->
+    <div class="nav-cards anim-fadeup delay-3">
+
+      <a href="projects.html" class="nav-card neon-cyan">
+        <div class="nav-card-header">
+          <div class="nav-card-icon">🗂️</div>
+          <div class="nav-card-title">Проекты</div>
+        </div>
+        <div class="nav-card-desc">
+          Все мои текущие проекты, включая приостановленные и заброшенные.
+        </div>
+      </a>
+
+      <a href="contacts.html" class="nav-card neon-pink">
+        <div class="nav-card-header">
+          <div class="nav-card-icon">📡</div>
+          <div class="nav-card-title">Контакты</div>
+        </div>
+        <div class="nav-card-desc">
+          Все актуальные контакты для связи со мной.
+        </div>
+      </a>
+
+      <a href="donate.html" class="nav-card neon-green">
+        <div class="nav-card-header">
+          <div class="nav-card-icon">💸</div>
+          <div class="nav-card-title">Деньги!</div>
+        </div>
+        <div class="nav-card-desc">
+          Реквизиты на которые вы можете отправить мне денег и попасть в топ&nbsp;:)
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
